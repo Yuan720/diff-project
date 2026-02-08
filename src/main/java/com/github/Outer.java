@@ -11,6 +11,7 @@ public class Outer {
     String value1;
     @CompareField
     String value2;
+    @CompareField
     String value3;
     List<Inner> items;
 }
