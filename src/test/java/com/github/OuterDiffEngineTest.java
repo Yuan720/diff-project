@@ -67,12 +67,13 @@ class OuterDiffEngineTest {
         assertThat(originOuter.getValue1()).isEqualTo("val1_old");
         assertThat(originOuter.getItems()).isNullOrEmpty(); // VERIFIES THE REDUNDANCY FIX
 
-        // 3. Test DiffMeta for each item change type
+        // 3. Test DiffMeta and ItemView states for each item change type
         List<ItemView<Inner>> items = view.getItems();
 
         // Test for MODIFIED item (id=1)
         ItemView<Inner> modifiedView = findItemById(items, 1);
-        assertThat(modifiedView.getDisplayState()).isEqualTo("NORMAL");
+
+        assertThat(modifiedView.getChangeType()).isEqualTo("MODIFY"); // New assertion
         DiffMeta modifiedMeta = view.getDiffMap().get(modifiedView.getDiffKey());
         assertThat(modifiedMeta.getChangeType()).isEqualTo("MODIFY");
         assertThat(modifiedMeta.getFields()).containsExactly("name");
@@ -80,7 +81,8 @@ class OuterDiffEngineTest {
 
         // Test for DELETED item (id=2)
         ItemView<Inner> deletedView = findItemById(items, 2);
-        assertThat(deletedView.getDisplayState()).isEqualTo("DELETED");
+
+        assertThat(deletedView.getChangeType()).isEqualTo("DELETE"); // New assertion
         DiffMeta deletedMeta = view.getDiffMap().get(deletedView.getDiffKey());
         assertThat(deletedMeta.getChangeType()).isEqualTo("DELETE");
         assertThat(deletedMeta.getFields()).containsExactlyInAnyOrder("name", "desc");
@@ -88,7 +90,8 @@ class OuterDiffEngineTest {
 
         // Test for EQUAL item (id=3)
         ItemView<Inner> equalView = findItemById(items, 3);
-        assertThat(equalView.getDisplayState()).isEqualTo("NORMAL");
+
+        assertThat(equalView.getChangeType()).isEqualTo("EQUAL"); // New assertion
         DiffMeta equalMeta = view.getDiffMap().get(equalView.getDiffKey());
         assertThat(equalMeta.getChangeType()).isEqualTo("EQUAL");
         assertThat(equalMeta.getFields()).isNull();
@@ -96,7 +99,8 @@ class OuterDiffEngineTest {
 
         // Test for ADDED item (id=4)
         ItemView<Inner> addedView = findItemById(items, 4);
-        assertThat(addedView.getDisplayState()).isEqualTo("NORMAL");
+
+        assertThat(addedView.getChangeType()).isEqualTo("ADD"); // New assertion
         DiffMeta addedMeta = view.getDiffMap().get(addedView.getDiffKey());
         assertThat(addedMeta.getChangeType()).isEqualTo("ADD");
         // Verifies the "record new fields on ADD" fix

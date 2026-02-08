@@ -22,26 +22,30 @@ public class DiffMapBuilder {
             T newVal = newMap.get(key);
 
             DiffMeta meta = new DiffMeta();
+            String changeType;
 
             if (oldVal == null) {
-                meta.setChangeType("ADD");
+                changeType = "ADD";
                 meta.setFields(extractCompareFields(newVal));
                 meta.setOriginValues(null);
             } else if (newVal == null) {
-                meta.setChangeType("DELETE");
+                changeType = "DELETE";
                 meta.setFields(extractCompareFields(oldVal));
                 meta.setOriginValues(oldVal);
             } else {
                 List<String> changed = diffFields(oldVal, newVal);
                 if (changed.isEmpty()) {
-                    meta.setChangeType("EQUAL");
+                    changeType = "EQUAL";
                     meta.setFields(null);
                 } else {
-                    meta.setChangeType("MODIFY");
+                    changeType = "MODIFY";
                     meta.setFields(changed);
                 }
                 meta.setOriginValues(oldVal);
             }
+
+            meta.setChangeType(changeType);
+            view.setChangeType(changeType);
 
             diffMap.put(view.getDiffKey(), meta);
         }

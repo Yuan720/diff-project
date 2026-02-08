@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class ItemView<T> {
     private String diffKey;
-    private String displayState; // NORMAL | DELETED
+    private String changeType;   // ADD | DELETE | MODIFY | EQUAL
     private T data;
 }

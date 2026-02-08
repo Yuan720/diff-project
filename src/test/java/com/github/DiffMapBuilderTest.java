@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,11 +28,14 @@ class DiffMapBuilderTest {
 
     @Test
     void testBuildForList_Add() {
-        ItemView<Inner> addView = new ItemView<>("key_add", "NORMAL", addedItem);
+        ItemView<Inner> addView = new ItemView<>("key_add", null, addedItem);
         Map<Object, Inner> oldMap = new HashMap<>();
         Map<Object, Inner> newMap = Collections.singletonMap(addedItem.getId(), addedItem);
 
         DiffMapBuilder.buildForList(Collections.singletonList(addView), oldMap, newMap, Inner::getId, diffMap);
+
+        // Assert that the ItemView's changeType is now set
+        assertThat(addView.getChangeType()).isEqualTo("ADD");
 
         DiffMeta meta = diffMap.get("key_add");
         assertThat(meta).isNotNull();
@@ -45,11 +47,14 @@ class DiffMapBuilderTest {
 
     @Test
     void testBuildForList_Delete() {
-        ItemView<Inner> deleteView = new ItemView<>("key_delete", "DELETED", deletedItem);
+        ItemView<Inner> deleteView = new ItemView<>("key_delete", null, deletedItem);
         Map<Object, Inner> oldMap = Collections.singletonMap(deletedItem.getId(), deletedItem);
         Map<Object, Inner> newMap = new HashMap<>();
 
         DiffMapBuilder.buildForList(Collections.singletonList(deleteView), oldMap, newMap, Inner::getId, diffMap);
+
+        // Assert that the ItemView's changeType is now set
+        assertThat(deleteView.getChangeType()).isEqualTo("DELETE");
 
         DiffMeta meta = diffMap.get("key_delete");
         assertThat(meta).isNotNull();
@@ -60,11 +65,14 @@ class DiffMapBuilderTest {
 
     @Test
     void testBuildForList_Modify() {
-        ItemView<Inner> modifyView = new ItemView<>("key_modify", "NORMAL", newItem);
+        ItemView<Inner> modifyView = new ItemView<>("key_modify", null, newItem);
         Map<Object, Inner> oldMap = Collections.singletonMap(oldItem.getId(), oldItem);
         Map<Object, Inner> newMap = Collections.singletonMap(newItem.getId(), newItem);
 
         DiffMapBuilder.buildForList(Collections.singletonList(modifyView), oldMap, newMap, Inner::getId, diffMap);
+
+        // Assert that the ItemView's changeType is now set
+        assertThat(modifyView.getChangeType()).isEqualTo("MODIFY");
 
         DiffMeta meta = diffMap.get("key_modify");
         assertThat(meta).isNotNull();
@@ -76,11 +84,14 @@ class DiffMapBuilderTest {
     @Test
     void testBuildForList_Equal() {
         // Use oldItem as both old and new to simulate no change
-        ItemView<Inner> equalView = new ItemView<>("key_equal", "NORMAL", oldItem);
+        ItemView<Inner> equalView = new ItemView<>("key_equal", null, oldItem);
         Map<Object, Inner> oldMap = Collections.singletonMap(oldItem.getId(), oldItem);
         Map<Object, Inner> newMap = Collections.singletonMap(oldItem.getId(), oldItem);
 
         DiffMapBuilder.buildForList(Collections.singletonList(equalView), oldMap, newMap, Inner::getId, diffMap);
+
+        // Assert that the ItemView's changeType is now set
+        assertThat(equalView.getChangeType()).isEqualTo("EQUAL");
 
         DiffMeta meta = diffMap.get("key_equal");
         assertThat(meta).isNotNull();

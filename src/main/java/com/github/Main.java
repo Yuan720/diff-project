@@ -36,7 +36,7 @@ public class Main {
 
         Inner inner3 = new Inner();
         inner3.setId(2);  // 这个内嵌对象是更新后的
-        inner3.setName(null);  // 这个被删除
+        inner3.setName("n2");  // 这个被删除
         inner3.setDesc("d2");
         inner3.setAge(20);
 

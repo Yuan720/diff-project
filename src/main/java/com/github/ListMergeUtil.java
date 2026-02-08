@@ -32,13 +32,13 @@ public class ListMergeUtil {
             if (newVal != null) {
                 result.add(new ItemView<>(
                         diffKeyGen.apply(newVal),
-                        "NORMAL",
+                        null,
                         newVal
                 ));
             } else {
                 result.add(new ItemView<>(
                         diffKeyGen.apply(o),
-                        "DELETED",
+                        null,
                         o
                 ));
             }
@@ -62,7 +62,7 @@ public class ListMergeUtil {
 
             ItemView<T> view = new ItemView<>(
                     diffKeyGen.apply(n),
-                    "NORMAL",
+                    null,
                     n
             );
 

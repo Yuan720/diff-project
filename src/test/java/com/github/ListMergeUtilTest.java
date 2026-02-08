@@ -39,21 +39,18 @@ class ListMergeUtilTest {
         
         // Check for item 1 (Equal)
         ItemView<Inner> itemView1 = findItemById(merged, 1);
-        assertThat(itemView1.getDisplayState()).isEqualTo("NORMAL");
         assertThat(itemView1.getData().getName()).isEqualTo("item1");
 
         // Check for item 2 (Deleted)
         ItemView<Inner> itemView2 = findItemById(merged, 2);
-        assertThat(itemView2.getDisplayState()).isEqualTo("DELETED");
+        assertThat(itemView2).isNotNull();
         
         // Check for item 3 (Modified)
         ItemView<Inner> itemView3 = findItemById(merged, 3);
-        assertThat(itemView3.getDisplayState()).isEqualTo("NORMAL");
         assertThat(itemView3.getData().getName()).isEqualTo("item3_mod");
 
         // Check for item 4 (Added)
         ItemView<Inner> itemView4 = findItemById(merged, 4);
-        assertThat(itemView4.getDisplayState()).isEqualTo("NORMAL");
         assertThat(itemView4.getData().getName()).isEqualTo("item4");
 
         // Check order
@@ -73,7 +70,6 @@ class ListMergeUtilTest {
         assertThat(merged).hasSize(2);
         assertThat(merged.get(0).getData().getId()).isEqualTo(1);
         assertThat(merged.get(1).getData().getId()).isEqualTo(2);
-        assertThat(merged.stream().allMatch(iv -> iv.getDisplayState().equals("NORMAL"))).isTrue();
     }
 
     @Test
@@ -88,7 +84,6 @@ class ListMergeUtilTest {
         assertThat(merged).hasSize(2);
         assertThat(merged.get(0).getData().getId()).isEqualTo(1);
         assertThat(merged.get(1).getData().getId()).isEqualTo(2);
-        assertThat(merged.stream().allMatch(iv -> iv.getDisplayState().equals("DELETED"))).isTrue();
     }
 
     @Test
