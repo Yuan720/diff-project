@@ -104,12 +104,32 @@ class ListMergeUtilTest {
 
         List<ItemView<Inner>> merged = ListMergeUtil.merge(oldList, newList, i -> i.id, i -> "key");
         
-        // Expected order should be based on the old list skeleton: 1, 2, 3
-        // with new items inserted relative to their anchors.
-        // Item 5's anchor is item 1, so it goes after 1.
-        // Item 3 is not new, its position is maintained from the skeleton.
+        // With "Historical Priority" logic, the old list provides the skeleton.
+        // New items are inserted relative to their anchors. '5' is anchored to '1' (in new list).
         List<Integer> ids = merged.stream().map(iv -> iv.getData().getId()).collect(Collectors.toList());
         assertThat(ids).containsExactly(1, 5, 2, 3);
+    }
+
+    @Test
+    void testUserReportedSortingBug() {
+        // As reported by the user
+        oldList = Arrays.asList(
+                new Inner(5, "n5", "d5", 10),
+                new Inner(0, null, null, 0),
+                new Inner(2, "n2", "d2", 20)
+        );
+        newList = Arrays.asList(
+                new Inner(3, "n3", "d3", 30),
+                new Inner(2, "n2", "d2", 20)
+        );
+
+        List<ItemView<Inner>> merged = ListMergeUtil.merge(oldList, newList, i -> i.id, i -> "key");
+
+        // Expected: With "Historical Priority", the old list is the skeleton [5, 0, 2].
+        // The new item '3' is anchored before '2' from the new list.
+        // So '3' is inserted before '2' in the result.
+        List<Integer> ids = merged.stream().map(iv -> iv.getData().getId()).collect(Collectors.toList());
+        assertThat(ids).containsExactly(5, 0, 3, 2);
     }
     
     private ItemView<Inner> findItemById(List<ItemView<Inner>> items, int id) {

@@ -19,6 +19,11 @@ public class Main {
         inner1.setName("n1");
         inner1.setDesc("d1");
         inner1.setAge(10);
+        Inner inner5 = new Inner();
+        inner1.setId(5);
+        inner1.setName("n5");
+        inner1.setDesc("d5");
+        inner1.setAge(10);
 
         Inner inner2 = new Inner();
         inner2.setId(2);
@@ -26,7 +31,7 @@ public class Main {
         inner2.setDesc("d2");
         inner2.setAge(20);
 
-        oldObj.setItems(Arrays.asList(inner1, inner2));
+        oldObj.setItems(Arrays.asList(inner1, inner5,inner2));
 
         // 创建新的 Outer 对象
         Outer newObj = new Outer();
