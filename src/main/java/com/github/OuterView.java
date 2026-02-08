@@ -16,4 +16,6 @@ public class OuterView {
     private List<ItemView<Inner>> items;
 
     private Map<String, DiffMeta> diffMap;
+
+    private Outer oldValue;
 }

@@ -27,7 +27,13 @@ public class OuterDiffEngine {
         rootMeta.setChangeType(
                 rootChanged.isEmpty() ? "EQUAL" : "MODIFY");
         rootMeta.setFields(rootChanged);
-        rootMeta.setOriginValues(oldObj);
+        Outer oldObjWithoutItems = new Outer();
+        if (oldObj != null) { // Add a null check for oldObj
+            oldObjWithoutItems.setValue1(oldObj.getValue1());
+            oldObjWithoutItems.setValue2(oldObj.getValue2());
+            oldObjWithoutItems.setValue3(oldObj.getValue3());
+        }
+        rootMeta.setOriginValues(oldObjWithoutItems);
         diffMap.put(rootDiffKey, rootMeta);
 
         // ===== items =====
@@ -67,6 +73,7 @@ public class OuterDiffEngine {
         );
 
         view.setDiffMap(diffMap);
+        view.setOldValue(oldObj);
         return view;
     }
 

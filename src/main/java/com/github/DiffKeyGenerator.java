@@ -8,4 +8,8 @@ public class DiffKeyGenerator {
     public static String next() {
         return "key" + SEQ.getAndIncrement();
     }
+
+    public static void reset() {
+        SEQ.set(1);
+    }
 }

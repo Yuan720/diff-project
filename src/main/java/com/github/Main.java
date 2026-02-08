@@ -46,7 +46,7 @@ public class Main {
         inner4.setDesc("d3");
         inner4.setAge(30);
 
-        newObj.setItems(Arrays.asList(inner3, inner4));  // 新增和更新
+        newObj.setItems(Arrays.asList( inner4,inner3));  // 新增和更新
 
         System.out.println("-----old---");
         System.out.println(mapper.writeValueAsString(oldObj));
@@ -58,21 +58,5 @@ public class Main {
         System.out.println("-----result---");
         System.out.println(mapper.writeValueAsString(result));
 
-/*        // 打印最终视图
-        System.out.println("Final diff view:");
-        System.out.println("Value1: " + result.getValue1());
-        System.out.println("Value2: " + result.getValue2());
-        System.out.println("Value3: " + result.getValue3());
-        System.out.println("DiffKey: " + result.getDiffKey());
-
-        // 打印 items
-        for (ItemView<Inner> item : result.getItems()) {
-            System.out.println("Item DiffKey: " + item.getDiffKey());
-            System.out.println("Item DisplayState: " + item.getDisplayState());
-            System.out.println("Item Data: " + item.getData());
-        }
-
-        // 打印 diffMap
-        System.out.println("DiffMap: " + result.getDiffMap());*/
     }
 }

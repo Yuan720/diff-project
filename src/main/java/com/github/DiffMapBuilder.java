@@ -25,7 +25,7 @@ public class DiffMapBuilder {
 
             if (oldVal == null) {
                 meta.setChangeType("ADD");
-                meta.setFields(null);
+                meta.setFields(extractCompareFields(newVal));
                 meta.setOriginValues(null);
             } else if (newVal == null) {
                 meta.setChangeType("DELETE");

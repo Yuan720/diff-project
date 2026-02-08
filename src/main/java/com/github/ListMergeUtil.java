@@ -70,7 +70,13 @@ public class ListMergeUtil {
                 result.add(view);
             } else {
                 int idx = indexOf(result, anchorKey, uniqGetter);
-                result.add(idx + 1, view);
+                if (idx == -1) {
+                    // Fallback: If anchorKey was expected to be found but wasn't,
+                    // add the view to the end of the list.
+                    result.add(view);
+                } else {
+                    result.add(idx + 1, view);
+                }
             }
         }
 
